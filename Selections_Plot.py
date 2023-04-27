@@ -12,7 +12,8 @@ loose.name='loose'
 
 #add PT cuts: 15GeV
 print(len(loose))
-loose=loose[(loose['FakeEPt']>=27)&(loose['ZM0Pt']>=27)&(loose['ZM1Pt']>=27)]
+loose=loose[(loose['ZM0Pt']>=27)&(loose['ZM1Pt']>=27)]
+loose=loose[(loose['FakeEPt']>=15)]
 loose=loose[(loose['MET']<=40)]
 print(len(loose))
 
@@ -83,7 +84,7 @@ hist_tight,xbins_tight,ybins_tight,im_tight=plt.hist2d(tight['FakeEPt'], abs(tig
 hist_loose,xbins_loose,ybins_loose,im_loose=plt.hist2d(loose['FakeEPt'], abs(loose['FakeEEta']), bins=(x_edges,y_edges))
 #print(xbins_tight,ybins_tight,hist_tight,hist_loose)
 
-print(hist_tight)
+print(hist_tight, hist_loose)
 
 #make transpose for plotting
 hist_tight=hist_tight.T

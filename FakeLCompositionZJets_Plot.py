@@ -9,7 +9,8 @@ print('reading in MC')
 MC_loose=pandas.read_csv('csv/MC_loose.csv')
 
 #Pt cuts
-MC_loose=MC_loose[(MC_loose['FakeEPt']>=27)&(MC_loose['ZM0Pt']>=27)&(MC_loose['ZM1Pt']>=27)]
+MC_loose=MC_loose[(MC_loose['ZM0Pt']>=27)&(MC_loose['ZM1Pt']>=27)]
+MC_loose=MC_loose[(MC_loose['FakeEPt']>=27)]
 MC_loose=MC_loose[(MC_loose['MET']<=40)]
 
 print('MC length',len(MC_loose),MC_loose['weight'].sum())
@@ -20,6 +21,10 @@ MC_tight=MC_loose
 MC_tight=MC_tight[MC_tight['FakeEIDTight']==1] #Iso WP
 MC_tight=MC_tight[abs(MC_tight['FakeEd0sig'])<=5] #Iso WP
 MC_tight=MC_tight[MC_tight['FakeEIsolationFCTight']==1] #Iso WP
+
+print('WZlen',len(MC_tight))
+print(MC_tight['weight'].sum())
+print(MC_loose['weight'].sum())
 
 print('making histograms')
 #make 1D histograms

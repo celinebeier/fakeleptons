@@ -1,21 +1,25 @@
-#dowload all files to EOS, make histograms
+#for data only, without WZ
 
 #import ROOT
 import numpy as np
 import uproot as ur
-import os
 import pandas
-import matplotlib.pyplot as plt
+import os
 from MC_Weights import MC_Weights
 
-eosdir='/eos/user/c/cbeier/results/230422_MC17_FakeE/'
+eosdir='/eos/user/c/cbeier/results/230421_WZ17_FakeE/'
+
+filename='cbeier'
+#filename='user.cbeier.700321.Sh.DAOD_PHYS.e8351_s3126_r9364_p5001.221004_ZjetsMC_TruthComposition_FakeM_NewSamples_output_FakeM_root'
 
 filepaths=[]
 
 #find the right file paths with the correct name
 for path in os.listdir(eosdir):
-    print(path)
-    filepaths.append(eosdir+path+'/')
+    if filename in path: #select only files with the right name
+        print(path)
+        filepaths.append(eosdir+path+'/')
+    else: continue #skip other files
 print(filepaths)
 
 branches_FakeL=['ElectronCounter','MuonCounter','FakeEPt','FakeMPt','FakeEEta','FakeMEta']
@@ -23,11 +27,10 @@ branches_Selection=['FakeEIsolationFCTight','FakeEIsolationFCLoose',
                     'FakeMIsolationFCTight','FakeMIsolationFCLoose',
                     'FakeEIDTight','FakeEIDMedium','FakeMQualityTight',
                     'FakeMd0sig','FakeEd0sig']
-branches_MC=['FakeEID','FakeMID','ZE0ID','ZE1ID','ZM0ID','ZM1ID']
 branches_PT=['ZE0Pt','ZE1Pt','ZM0Pt','ZM1Pt','MET']
-branches_test=['eventNumber']
+branches_test=['eventNumber','Invm']
 
-branches=branches_FakeL+branches_Selection+branches_PT+branches_MC
+branches=branches_test+branches_FakeL+branches_PT+branches_Selection
 
 tight=pandas.DataFrame(columns=branches+['weight'])
 loose=pandas.DataFrame(columns=branches+['weight'])
@@ -58,5 +61,5 @@ for path in filepaths:
     #save to one csv file
 
 print('saving data')
-tight.to_csv('csv/MC_tight'+'.csv', index=False)
-loose.to_csv('csv/MC_loose'+'.csv', index=False)
+tight.to_csv('csv/Zpeak_tight'+'.csv', index=False)
+loose.to_csv('csv/Zpeak_loose'+'.csv', index=False)

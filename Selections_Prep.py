@@ -6,7 +6,7 @@ import uproot as ur
 import pandas
 import os
 
-eosdir='/eos/user/c/cbeier/results/230422_MC17_FakeE/'
+eosdir='/eos/user/c/cbeier/results/230414_Data16_FakeE/'
 
 filename='cbeier'
 #filename='user.cbeier.700321.Sh.DAOD_PHYS.e8351_s3126_r9364_p5001.221004_ZjetsMC_TruthComposition_FakeM_NewSamples_output_FakeM_root'

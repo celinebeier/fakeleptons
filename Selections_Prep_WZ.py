@@ -48,7 +48,7 @@ for path in data_filepaths:
 
     print('saving events for',path)
     data_tight=data_tight.append(tight)
-    data_loose=loose.append(loose)
+    data_loose=data_loose.append(loose)
     #save to one csv file
 
 print('saving data')
@@ -92,8 +92,8 @@ for path in WZ_filepaths:
     loose=pandas.concat([loose, weight_loose], axis=1)
 
     print('saving events for',path)
-    WZ_tight=tight.append(tight)
-    WZ_loose=loose.append(loose)
+    WZ_tight=WZ_tight.append(tight)
+    WZ_loose=WZ_loose.append(loose)
     #save to one csv file
 
 print('saving MC')

@@ -1,41 +1,36 @@
-#for data only, without WZ
-
-#import ROOT
 import numpy as np
 import uproot as ur
 import pandas
 import os
+from MC_Weights import MC_Weights
 
-eosdir='/eos/user/c/cbeier/results/230310_Data16B_FakeE/'
-#eosdir='/afs/cern.ch/user/c/cbeier/AnaTop/run/'
+dir='/eos/user/c/cbeier/results/230422_MC17_FakeE/'
+name='MC'
+isMC=True
+year='2017'
 
-filename='periodB'
-#filename='user.cbeier.700321.Sh.DAOD_PHYS.e8351_s3126_r9364_p5001.221004_ZjetsMC_TruthComposition_FakeM_NewSamples_output_FakeM_root'
-
-filepaths=[]
-#filepaths=[eosdir] #because only one file in dir
-
-#find the right file paths with the correct name
-for path in os.listdir(eosdir):
-    if filename in path: #select only files with the right name
-        print(path)
-        filepaths.append(eosdir+path+'/')
-    else: continue #skip other files
-#print(filepaths)
-
-#branches_FakeL=['ElectronCounter','MuonCounter','FakeEPt','FakeMPt','FakeEEta','FakeMEta']
-#branches_Selection=['MET','FakeEIsolationFCTight','FakeEIsolationFCLoose',
-#                    'FakeMIsolationFCTight','FakeMIsolationFCLoose',
-#                    'FakeEIDTight','FakeEIDMedium','FakeMQualityTight',
-#                    'FakeMd0sig','FakeEd0sig']
-#branches_PT=['ZE0Pt','ZE1Pt','ZM0Pt','ZM1Pt']
+branches_FakeL=['ElectronCounter','MuonCounter','FakeEPt','FakeMPt','FakeEEta','FakeMEta']
+branches_Selection=['FakeEIsolationFCTight','FakeEIsolationFCLoose',
+                    'FakeMIsolationFCTight','FakeMIsolationFCLoose',
+                    'FakeEIDTight','FakeEIDMedium','FakeMQualityTight',
+                    'FakeMd0sig','FakeEd0sig']
+branches_MC=['FakeEID','FakeMID','ZE0ID','ZE1ID','ZM0ID','ZM1ID']
+branches_PT=['ZE0Pt','ZE1Pt','ZM0Pt','ZM1Pt','MET']
 branches_test=['eventNumber']
 
-branches=branches_test
-#branches=branches_test
+branches=branches_FakeL+branches_Selection+branches_PT+branches_MC
 
-tight=pandas.DataFrame(columns=branches)
-loose=pandas.DataFrame(columns=branches)
+
+#find the right file paths with the correct name
+filepaths=[]
+
+for path in os.listdir(dir):
+    print(path)
+    filepaths.append(dir+path+'/')
+print('filepaths:',filepaths)
+
+tight=pandas.DataFrame(columns=branches+['weight'])
+loose=pandas.DataFrame(columns=branches+['weight'])
 
 #loop through file paths
 for path in filepaths:
@@ -43,17 +38,29 @@ for path in filepaths:
     file=path+'*.root' #all files in the directory
     print('reading in data for',path)
     #read in data and make a dataframe
-    data_tight = ur.pandas.iterate(file, treepath='nominal', branches=branches)
-    data_loose = ur.pandas.iterate(file, treepath='nominal_Loose', branches=branches)
+    path_tight = ur.pandas.iterate(file, treepath='nominal', branches=branches)
+    path_loose = ur.pandas.iterate(file, treepath='nominal_Loose', branches=branches)
 
-    data_tight = pandas.concat([d for d in data_tight])
-    data_loose = pandas.concat([d for d in data_loose])
+    path_tight = pandas.concat([d for d in path_tight])
+    path_loose = pandas.concat([d for d in path_loose])
+    
+    if isMC:
+        print('getting MC weights for', path)
+        #get weights and add them to the dataframe
+        weight_tight=MC_Weights(path,'tight',year)
+        weight_loose=MC_Weights(path,'loose',year)
+
+        path_tight=pandas.concat([path_tight, weight_tight], axis=1)
+        path_loose=pandas.concat([path_loose, weight_loose], axis=1)
+    else:
+        path_tight['weight'] = 1
+        path_loose['weight'] = 1
 
     print('saving events for',path)
-    tight=tight.append(data_tight)
-    loose=loose.append(data_loose)
-    #save to one csv file
+    tight=tight.append(path_tight)
+    loose=loose.append(path_loose)
 
-print('saving data')
-tight.to_csv('cvs/test_tight'+'.csv', index=False)
-loose.to_csv('cvs/test_loose'+'.csv', index=False)
+#save to one csv file
+print('saving events')
+tight.to_csv('csv/'+name+'_tight'+'.csv', index=False)
+loose.to_csv('csv/'+name+'_loose'+'.csv', index=False)
