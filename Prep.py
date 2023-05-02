@@ -4,9 +4,9 @@ import pandas
 import os
 from MC_Weights import MC_Weights
 
-dir='/eos/user/c/cbeier/results/230422_MC17_FakeE/'
-name='MC'
-isMC=True
+dir='/eos/user/c/cbeier/results/230425_Data17_FakeE/'
+name='Data'
+isMC=False
 year='2017'
 
 branches_FakeL=['ElectronCounter','MuonCounter','FakeEPt','FakeMPt','FakeEEta','FakeMEta']
@@ -19,7 +19,6 @@ branches_PT=['ZE0Pt','ZE1Pt','ZM0Pt','ZM1Pt','MET']
 branches_test=['eventNumber']
 
 branches=branches_FakeL+branches_Selection+branches_PT+branches_MC
-
 
 #find the right file paths with the correct name
 filepaths=[]
