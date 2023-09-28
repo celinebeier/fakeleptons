@@ -1,0 +1,3 @@
+WyCR
+total expexted fakes: 36.873299159858824
+error: 11.128814024803836

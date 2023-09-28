@@ -1,0 +1,3 @@
+SR
+total expexted fakes: 24.592285724416232
+error: 9.275963804541782
