@@ -50,3 +50,10 @@ If you are a student who for some reason now has to work with my code. Buckle up
 - FakeEComposition_SR.py does the same for VR and SR, this is a separate file because these regions are slightly different and I thought it would be easiest to make separate files.
 - FakeMComposition_CR.py and FakeMComposition_SR.py do the same for muons. 
 - FakeNComposition_PDF.py does the plotting.
+
+## Results! ##
+
+- Electron results are in the root/ folder, muon results in the root_FakeM/ folder.
+- The sub folders, d0sig, IDMedium, IsoTight,... are the results for different cuts/ settinngs used to evaluate systematic uncertainties. 
+- PNG files in the root/ folder are outdated, the PDFs are the new results. 
+- And the .txt files have the fake estimates per bin, so probably what you're looking for.
