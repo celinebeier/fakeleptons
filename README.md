@@ -9,7 +9,7 @@ If you are a student who for some reason now has to work with my code. Buckle up
 ## General comments ##
 
 - The data that this all works on, the ROOT files that are the output of the AnalysisTop code, is way too large to be stored here, it's in my CERN storage and will probably get deleted as soon as I finish my CERN membership, so good luck.
-- Historically the code was developed for electrons and then adapted to muons. All files without _FakeM are the originals and work for electrons, everything with _FakeM is a copy of that adapted for electrons. Yes, I shoudl have renamed the original files but I didn't. 
+- Historically the code was developed for electrons and then adapted to muons. All files without _FakeM are the originals and work for electrons, everything with _FakeM is a copy of that adapted for electrons. Yes, I shoudl have renamed the original files but I didn't. Except for the composition ones, those are called FakeE.
 - Everything with _PDF takes root files and makes nice PDF ROOT plots yay.
 - Files with FakeN work for electrons and muons. 
 - Everything in the pic/ folder is outdated, but documents my struggeling and looks nice so I'm keeping it. 
